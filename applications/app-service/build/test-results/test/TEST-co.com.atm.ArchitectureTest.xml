@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="co.com.atm.ArchitectureTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2023-11-01T21:15:34" hostname="MacBook-Pro-2.local" time="0.068">
+  <properties/>
+  <testcase name="domainClassesShouldNotBeNamedWithToolNames()" classname="co.com.atm.ArchitectureTest" time="0.038"/>
+  <testcase name="domainClassesShouldNotHaveFieldsNamedWithToolNames()" classname="co.com.atm.ArchitectureTest" time="0.005"/>
+  <testcase name="useCaseFinalFields()" classname="co.com.atm.ArchitectureTest" time="0.002"/>
+  <testcase name="beansShouldOnlyHaveFinalFields()" classname="co.com.atm.ArchitectureTest" time="0.007"/>
+  <testcase name="domainClassesShouldNotBeNamedWithTechSuffixes()" classname="co.com.atm.ArchitectureTest" time="0.0"/>
+  <system-out><![CDATA[16:15:33.249 [Test worker] INFO com.tngtech.archunit.core.PluginLoader -- Detected Java version 17.0.7
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
