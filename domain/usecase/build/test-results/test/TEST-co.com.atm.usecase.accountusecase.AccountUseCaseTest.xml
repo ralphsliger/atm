@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="co.com.atm.usecase.accountusecase.AccountUseCaseTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2023-11-01T21:47:59" hostname="MacBook-Pro-2.local" time="0.427">
+  <properties/>
+  <testcase name="accounts_NoAccounts_ReturnsEmptyList()" classname="co.com.atm.usecase.accountusecase.AccountUseCaseTest" time="0.415"/>
+  <testcase name="saveAccount_ValidAccount_ReturnsSavedAccount()" classname="co.com.atm.usecase.accountusecase.AccountUseCaseTest" time="0.004"/>
+  <testcase name="validateAccountExistence_ExistingAccountId_ReturnsAccount()" classname="co.com.atm.usecase.accountusecase.AccountUseCaseTest" time="0.003"/>
+  <testcase name="validateAccountExistence_NonExistingAccountId_ThrowsAccountNotFoundException()" classname="co.com.atm.usecase.accountusecase.AccountUseCaseTest" time="0.001"/>
+  <testcase name="accounts_AccountsExist_ReturnsAccountList()" classname="co.com.atm.usecase.accountusecase.AccountUseCaseTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

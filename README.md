@@ -1,5 +1,196 @@
 # Proyecto Base Implementando Clean Architecture
 
+Proyecto realizado en Spring Boot haciendo uso de Bancolombia Scatfold para construcción de arquitectura hexagonal.
+
+## Correr Proyecto
+Clonar el proyecto `git clone `
+
+Abrir con IDE de preferencia ir a capa /applications y ejecutar `MainApplication.java`
+
+## Endpoints
+
+GET /api/accounts
+```
+[
+    {
+        "id": 1,
+        "accountNumber": "Daffy Duck",
+        "balance": 150.0
+    },
+    {
+        "id": 2,
+        "accountNumber": "Elmer Fudd",
+        "balance": 70.0
+    },
+    {
+        "id": 3,
+        "accountNumber": "Wile E. Coyote",
+        "balance": 100.0
+    }
+]
+```
+
+POST /api/accounts
+```
+BODY:
+{
+    "accountNumber": "Wile E. Coyote",
+    "balance": 0
+}
+
+RESPONSE:
+{
+    "id": 3,
+    "accountNumber": "Wile E. Coyote",
+    "balance": 0
+}
+```
+
+
+POST /api/withdrawal
+```
+Body:
+{
+    "accountId": 3,
+    "amount": 30
+}
+Response void
+```
+
+
+POST /api/deposit
+```
+Body:
+{
+    "accountId":2,
+    "amount": 20
+}
+Response void
+```
+
+POST /api/transfer
+```
+Body:
+{
+    "sourceAccountId": 4,
+    "destinationAccountId": 1,
+    "amount": 20
+}
+Response void
+```
+
+
+GET /api/transactions
+```
+[
+    {
+        "id": 1,
+        "transactionType": "DEPOSIT",
+        "amount": 111.0,
+        "finalBalance": 111.0,
+        "accountId": 2,
+        "description": "Deposit"
+    },
+    {
+        "id": 2,
+        "transactionType": "DEPOSIT",
+        "amount": 111.0,
+        "finalBalance": 222.0,
+        "accountId": 2,
+        "description": "Deposit"
+    },
+    {
+        "id": 3,
+        "transactionType": "DEPOSIT",
+        "amount": 111.0,
+        "finalBalance": 333.0,
+        "accountId": 2,
+        "description": "Deposit"
+    },
+    {
+        "id": 4,
+        "transactionType": "DEPOSIT",
+        "amount": 111.0,
+        "finalBalance": 444.0,
+        "accountId": 2,
+        "description": "Deposit"
+    },
+    {
+        "id": 5,
+        "transactionType": "WITHDRAWAL",
+        "amount": 22.0,
+        "finalBalance": 422.0,
+        "accountId": 2,
+        "description": "Withdrawal"
+    },
+    {
+        "id": 6,
+        "transactionType": "WITHDRAWAL",
+        "amount": 22.0,
+        "finalBalance": 400.0,
+        "accountId": 2,
+        "description": "Withdrawal"
+    },
+    {
+        "id": 7,
+        "transactionType": "WITHDRAWAL",
+        "amount": 22.0,
+        "finalBalance": 378.0,
+        "accountId": 2,
+        "description": "Withdrawal"
+    },
+    {
+        "id": 8,
+        "transactionType": "WITHDRAWAL",
+        "amount": 22.0,
+        "finalBalance": 356.0,
+        "accountId": 2,
+        "description": "Withdrawal"
+    },
+    {
+        "id": 9,
+        "transactionType": "WITHDRAWAL",
+        "amount": 22.0,
+        "finalBalance": 334.0,
+        "accountId": 2,
+        "description": "Withdrawal"
+    },
+    {
+        "id": 10,
+        "transactionType": "WITHDRAWAL",
+        "amount": 22.0,
+        "finalBalance": 312.0,
+        "accountId": 2,
+        "description": "Withdrawal"
+    },
+    {
+        "id": 11,
+        "transactionType": "DEPOSIT",
+        "amount": 10000.0,
+        "finalBalance": 20000.0,
+        "accountId": 4,
+        "description": "Deposit"
+    },
+    {
+        "id": 12,
+        "transactionType": "WITHDRAWAL",
+        "amount": 10.0,
+        "finalBalance": 19990.0,
+        "accountId": 4,
+        "description": "Withdrawal"
+    },
+    {
+        "id": 13,
+        "transactionType": "WITHDRAWAL",
+        "amount": 10.0,
+        "finalBalance": 19980.0,
+        "accountId": 4,
+        "description": "Withdrawal"
+    }
+]
+```
+
+
 ## Antes de Iniciar
 
 Empezaremos por explicar los diferentes componentes del proyectos y partiremos de los componentes externos, continuando con los componentes core de negocio (dominio) y por último el inicio y configuración de la aplicación.

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="co.com.atm.usecase.checktransactionhistory.CheckTransactionHistoryUseCaseTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2023-11-01T21:48:00" hostname="MacBook-Pro-2.local" time="0.018">
+  <properties/>
+  <testcase name="getTransactionHistoryByAccount_ExistingAccountId_ReturnsTransactionList()" classname="co.com.atm.usecase.checktransactionhistory.CheckTransactionHistoryUseCaseTest" time="0.01"/>
+  <testcase name="getTransactionHistoryByAccount_NonExistingAccountId_ThrowsAccountNotFoundException()" classname="co.com.atm.usecase.checktransactionhistory.CheckTransactionHistoryUseCaseTest" time="0.005"/>
+  <testcase name="getAll_ReturnsAllTransactions()" classname="co.com.atm.usecase.checktransactionhistory.CheckTransactionHistoryUseCaseTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CheckTransactionHistoryUseCase.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">usecase</a> &gt; <a href="index.source.html" class="el_package">co.com.atm.usecase.checktransactionhistory</a> &gt; <span class="el_source">CheckTransactionHistoryUseCase.java</span></div><h1>CheckTransactionHistoryUseCase.java</h1><pre class="source lang-java linenums">package co.com.atm.usecase.checktransactionhistory;
+
+import co.com.atm.model.account.Account;
+import co.com.atm.model.transaction.Transaction;
+import co.com.atm.model.transaction.gateways.TransactionRepository;
+import co.com.atm.usecase.accountusecase.AccountUseCase;
+import lombok.RequiredArgsConstructor;
+
+import java.util.List;
+
+@RequiredArgsConstructor
+public class CheckTransactionHistoryUseCase {
+
+    private final AccountUseCase accountUsecaseUseCase;
+
+    private final TransactionRepository transactionRepository;
+
+    public List&lt;Transaction&gt; getTransactionHistoryByAccount(Long accountId){
+<span class="fc" id="L19">        Account account = accountUsecaseUseCase.validateAccountExistence(accountId);</span>
+<span class="fc" id="L20">       return transactionRepository.findAllByAccountId(accountId);</span>
+
+    }
+
+    public List&lt;Transaction&gt; getAll(){
+<span class="fc" id="L25">        return transactionRepository.findAllTransactions();</span>
+    }
+
+
+
+
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TransactionsUseCase.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">usecase</a> &gt; <a href="index.source.html" class="el_package">co.com.atm.usecase.transactions</a> &gt; <span class="el_source">TransactionsUseCase.java</span></div><h1>TransactionsUseCase.java</h1><pre class="source lang-java linenums">package co.com.atm.usecase.transactions;
+
+import co.com.atm.model.account.Account;
+import co.com.atm.model.account.gateways.AccountRepository;
+import co.com.atm.model.transaction.Transaction;
+import co.com.atm.model.transaction.gateways.TransactionRepository;
+import co.com.atm.model.transactiontype.TransactionType;
+import co.com.atm.usecase.accountusecase.AccountUseCase;
+import co.com.atm.usecase.checkbalance.CheckBalanceUseCase;
+import co.com.atm.usecase.exceptions.AccountNotFoundException;
+import lombok.RequiredArgsConstructor;
+
+import java.math.BigDecimal;
+
+@RequiredArgsConstructor
+public class TransactionsUseCase {
+
+    private final AccountUseCase accountUsecaseUseCase;
+    private final CheckBalanceUseCase checkBalanceUseCase;
+    private final AccountRepository accountRepository;
+    private final TransactionRepository transactionRepository;
+    public Transaction makeWithdrawal(Long accountId, BigDecimal amount){
+<span class="fc" id="L23">        Account account = accountUsecaseUseCase.validateAccountExistence(accountId);</span>
+<span class="fc" id="L24">        BigDecimal newBalance = account.getBalance().subtract(amount);</span>
+<span class="fc" id="L25">        account.setBalance(newBalance);</span>
+<span class="fc" id="L26">        Transaction withdrawal = this.makeTransaction(accountId, TransactionType.WITHDRAWAL, amount, newBalance, &quot;Withdrawal&quot;);</span>
+<span class="fc" id="L27">        accountRepository.saveAccount(account);</span>
+<span class="fc" id="L28">        return withdrawal;</span>
+    }
+
+    public Transaction makeTransaction(Long account, TransactionType transactionType, BigDecimal amount, BigDecimal finalBalance, String description){
+        Transaction transaction = Transaction
+<span class="fc" id="L33">                .builder()</span>
+<span class="fc" id="L34">                .accountId(account)</span>
+<span class="fc" id="L35">                .transactionType(transactionType)</span>
+<span class="fc" id="L36">                .amount(amount)</span>
+<span class="fc" id="L37">                .finalBalance(finalBalance)</span>
+<span class="fc" id="L38">                .description(description)</span>
+<span class="fc" id="L39">                .build();</span>
+<span class="fc" id="L40">        return transactionRepository.saveTransaction(transaction);</span>
+    }
+
+    public void makeTransfer(Long sourceAccountId, Long destinationAccountId, BigDecimal amount){
+<span class="nc" id="L44">        Account sourceAccount = accountUsecaseUseCase.validateAccountExistence(sourceAccountId);</span>
+<span class="nc" id="L45">        BigDecimal oldBalance = sourceAccount.getBalance();</span>
+
+<span class="nc" id="L47">        Account destinationAccount = accountUsecaseUseCase.validateAccountExistence(destinationAccountId);</span>
+<span class="nc" id="L48">        checkBalanceUseCase.validateBalance(sourceAccountId, amount);</span>
+
+<span class="nc" id="L50">        BigDecimal newSourceBalance = sourceAccount.getBalance().subtract(amount);</span>
+<span class="nc" id="L51">        sourceAccount.setBalance(newSourceBalance);</span>
+
+<span class="nc" id="L53">        BigDecimal newDestinationBalance = destinationAccount.getBalance().add(amount);</span>
+<span class="nc" id="L54">        destinationAccount.setBalance(newDestinationBalance);</span>
+
+<span class="nc" id="L56">        String transferDescription = &quot;Transferencia de &quot; + sourceAccount.getAccountNumber() + &quot; a &quot; + destinationAccount.getAccountNumber();</span>
+
+<span class="nc" id="L58">        this.makeWithdrawal(sourceAccountId, newSourceBalance);</span>
+<span class="nc" id="L59">        this.makeDeposit(destinationAccountId, newDestinationBalance);</span>
+<span class="nc" id="L60">        this.makeTransaction(sourceAccountId, TransactionType.TRANSFER, oldBalance, newSourceBalance ,transferDescription);</span>
+
+<span class="nc" id="L62">        accountUsecaseUseCase.saveAccount(sourceAccount);</span>
+<span class="nc" id="L63">        accountUsecaseUseCase.saveAccount(destinationAccount);</span>
+
+
+<span class="nc" id="L66">    }</span>
+    public Transaction makeDeposit(Long accountId, BigDecimal amount) throws AccountNotFoundException {
+
+<span class="nc" id="L69">        Account account = accountUsecaseUseCase.validateAccountExistence(accountId);</span>
+
+<span class="nc" id="L71">        BigDecimal newBalance = account.getBalance().add(amount);</span>
+<span class="nc" id="L72">        account.setBalance(newBalance);</span>
+
+<span class="nc" id="L74">        Transaction deposit = this.makeTransaction(accountId, TransactionType.DEPOSIT, amount, newBalance, &quot;Deposit&quot;);</span>
+
+<span class="nc" id="L76">        accountUsecaseUseCase.saveAccount(account);</span>
+
+<span class="nc" id="L78">        return deposit;</span>
+
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

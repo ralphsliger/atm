@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="co.com.atm.usecase.checkbalance.CheckBalanceUseCaseTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2023-11-01T21:48:00" hostname="MacBook-Pro-2.local" time="0.018">
+  <properties/>
+  <testcase name="validateBalance_WithInsufficientBalance_ThrowsInsufficientBalanceException()" classname="co.com.atm.usecase.checkbalance.CheckBalanceUseCaseTest" time="0.016"/>
+  <testcase name="validateBalance_WithSufficientBalance_DoesNotThrowException()" classname="co.com.atm.usecase.checkbalance.CheckBalanceUseCaseTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
