@@ -31,7 +31,6 @@ class AccountUseCaseTest {
 
     @Test
     void validateAccountExistence_ExistingAccountId_ReturnsAccount() {
-        // Arrange
         Long accountId = 1L;
         Account account = new Account(accountId, "John Doe", BigDecimal.ONE);
 
@@ -84,7 +83,6 @@ class AccountUseCaseTest {
 
         when(accountRepository.findAllAccounts()).thenReturn(accounts);
 
-        // Act
         List<Account> result = accountUsecase.accounts();
 
         assertEquals(accounts, result);

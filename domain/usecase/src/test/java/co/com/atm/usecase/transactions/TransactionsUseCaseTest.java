@@ -41,7 +41,6 @@ class TransactionsUseCaseTest {
 
     @Test
     void makeWithdrawal_ValidWithdrawal_ReturnsWithdrawalTransaction() {
-        // Arrange
         Long accountId = 1L;
         BigDecimal amount = new BigDecimal("500");
         Account account = new Account(accountId, "123456789", new BigDecimal("1000"));
@@ -50,10 +49,8 @@ class TransactionsUseCaseTest {
         when(accountUseCase.validateAccountExistence(accountId)).thenReturn(account);
         when(transactionRepository.saveTransaction(any())).thenReturn(withdrawalTransaction);
 
-        // Act
         Transaction result = transactionsUseCase.makeWithdrawal(accountId, amount);
 
-        // Assert
         assertNotNull(result);
         verify(accountUseCase).validateAccountExistence(accountId);
         verify(accountRepository).saveAccount(account);

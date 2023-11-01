@@ -40,7 +40,6 @@ class CheckBalanceUseCaseTest {
 
     @Test
     void validateBalance_WithInsufficientBalance_ThrowsInsufficientBalanceException() {
-        // Arrange
         Long accountId = 2L;
         BigDecimal amount = new BigDecimal("500");
         Account account = new Account(accountId, "987654321", new BigDecimal("200"));

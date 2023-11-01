@@ -1,5 +1,6 @@
 package co.com.atm;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tngtech.archunit.base.DescribedPredicate;
 import com.tngtech.archunit.core.domain.JavaClass;
 import com.tngtech.archunit.core.domain.JavaClasses;
@@ -11,6 +12,7 @@ import com.tngtech.archunit.lang.ConditionEvents;
 import com.tngtech.archunit.lang.SimpleConditionEvent;
 import com.tngtech.archunit.lang.syntax.elements.MembersShouldConjunction;
 import lombok.extern.log4j.Log4j2;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -20,6 +22,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Stream;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
@@ -31,12 +40,31 @@ class ArchitectureTest {
     private static JavaClasses allClasses;
     private static JavaClasses domainClasses;
     private static JavaClasses useCaseClasses;
+    private static final ConcurrentMap<String, Utils.IssuesReport> issues = new ConcurrentHashMap<>();
+
+    private final Map<String, Utils.JavaFile> files = Utils.findFiles();
 
     @BeforeAll
     static void importClasses() {
         allClasses = new ClassFileImporter().importPackages("co.com.atm");
         domainClasses = new ClassFileImporter().importPackages("co.com.atm.usecase", "co.com.atm.model");
         useCaseClasses = new ClassFileImporter().importPackages("co.com.atm.usecase");
+    }
+
+     @AfterAll
+    static void exportIssues() {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            List.of("/Users/nymeria/Documents/pr/atm/","/Users/nymeria/Documents/pr/atm/infrastructure/entry-points/api-rest/","/Users/nymeria/Documents/pr/atm/applications/app-service/","/Users/nymeria/Documents/pr/atm/infrastructure/driven-adapters/jpa-repository/","/Users/nymeria/Documents/pr/atm/domain/model/","/Users/nymeria/Documents/pr/atm/domain/usecase/").forEach(path -> {
+                try {
+                    Files.write(Path.of(path, "build/issues.json"), mapper.writeValueAsBytes(issues.getOrDefault(path, new Utils.IssuesReport())));
+                } catch (IOException e) {
+                    log.warn(e.getMessage());
+                }
+            });
+        } catch (Exception e) {
+            log.warn(e.getMessage());
+        }
     }
 
     @Test
@@ -123,6 +151,17 @@ class ArchitectureTest {
         try {
             runnable.run();
         } catch (AssertionError e) {
+            Utils.ArchitectureRule rule = Utils.parseToRule(e.getMessage());
+            rule.getLocations().forEach(location -> {
+                Utils.JavaFile file = files.get(location.getClassName());
+                if (file != null) {
+                    issues.computeIfAbsent(file.getModulePath(), key -> new Utils.IssuesReport())
+                            .add(Utils.Issue.from(rule.getRuleId(), Utils.Issue.Severity.MAJOR, Utils.Issue.Type.CODE_SMELL,
+                                    Utils.Issue.Location.from(rule.getDescription() + location.getDescription(),
+                                            file.getPath(), Utils.Issue.TextRange.from(
+                                                    Utils.resolveFinalLocation(file, location))), 5));
+                }
+            });
             log.warn("ARCHITECTURE_RULE_VIOLATED: This will cause a build error in future.\nPlease review our wiki at https://github.com/bancolombia/scaffold-clean-architecture/wiki/Architecture-Rules", e);
         }
     }

@@ -1,0 +1,51 @@
+# Archivos generados por IntelliJ IDEA
+.idea/
+
+# Archivos generados por Gradle
+.gradle/
+
+# Archivos generados por el sistema operativo
+*.iml
+*.ipr
+*.iws
+
+# Carpetas generadas por el sistema operativo
+.idea/
+.gradle/
+
+# Archivos de logs y archivos temporales generados por la aplicación
+*.log
+*.log.*
+out/
+
+# Archivos de configuración específicos de IntelliJ IDEA
+*.iml
+.idea/
+
+# Dependencias y archivos generados por el IDE
+.idea_modules/
+.idea/libraries/
+
+# Carpetas específicas de la IDE de IntelliJ
+.idea/
+
+# Carpetas generadas por Eclipse
+.settings/
+
+# Archivos de configuración de Eclipse
+.classpath
+.project
+
+# Carpetas generadas por NetBeans
+nbproject/
+
+# Archivos temporales de macOS
+.DS_Store
+
+# Archivos generados por JaCoCo
+**/jacoco/*.exec
+
+# Ignorar cualquier cosa que venga de cualquier directorio "/build/"
+**/build/
+
+
